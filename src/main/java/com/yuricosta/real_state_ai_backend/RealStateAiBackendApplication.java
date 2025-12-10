@@ -1,0 +1,13 @@
+package com.yuricosta.real_state_ai_backend;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class RealStateAiBackendApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(RealStateAiBackendApplication.class, args);
+	}
+
+}
