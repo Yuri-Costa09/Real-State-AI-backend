@@ -1,4 +1,11 @@
 package com.yuricosta.real_state_ai_backend.user;
 
-public interface UserRepository extends org.springframework.data.jpa.repository.JpaRepository<com.yuricosta.real_state_ai_backend.user.User, java.util.UUID> {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public interface UserRepository extends JpaRepository<User, UUID> {
+    boolean existsByEmail(String email);
+    Optional<User> findByEmail(String email);
 }

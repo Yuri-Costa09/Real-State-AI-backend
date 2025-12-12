@@ -14,7 +14,7 @@ public class ApiResponse<T> {
     private LocalDateTime timestamp;
 
     // Construtor privado para forçar o uso dos métodos estáticos (Factory Method Pattern)
-    private ApiResponse(boolean success, String message, T data) {
+    public ApiResponse(boolean success, String message, T data) {
         this.success = success;
         this.message = message;
         this.data = data;
