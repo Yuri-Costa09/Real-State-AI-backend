@@ -1,4 +1,4 @@
-package com.yuricosta.real_state_ai_backend.user;
+package com.yuricosta.real_state_ai_backend.users;
 
 import com.yuricosta.real_state_ai_backend.shared.errors.NotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

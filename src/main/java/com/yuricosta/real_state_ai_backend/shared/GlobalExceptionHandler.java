@@ -39,6 +39,20 @@ public class GlobalExceptionHandler {
 
     */
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<StandardError> illegalStateException(IllegalStateException e,
+                                                               HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(
+                java.time.Instant.now(),
+                status.value(),
+                "Illegal State",
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(status.value()).body(err);
+    }
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<StandardError> notFoundException(NotFoundException e,
                                                            HttpServletRequest request) {

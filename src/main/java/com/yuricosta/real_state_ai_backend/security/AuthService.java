@@ -1,7 +1,6 @@
 package com.yuricosta.real_state_ai_backend.security;
 
-import com.yuricosta.real_state_ai_backend.security.dtos.LoginResponse;
-import com.yuricosta.real_state_ai_backend.user.UserRepository;
+import com.yuricosta.real_state_ai_backend.users.UserRepository;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -11,14 +10,13 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.List;
 
 @Service
 public class AuthService {
 
     private final JwtEncoder jwtEncoder;
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public AuthService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, JwtEncoder jwtEncoder) {
         this.userRepository = userRepository;

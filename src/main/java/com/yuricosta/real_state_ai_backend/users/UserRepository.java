@@ -1,4 +1,4 @@
-package com.yuricosta.real_state_ai_backend.user;
+package com.yuricosta.real_state_ai_backend.users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
