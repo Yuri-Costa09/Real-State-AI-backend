@@ -95,17 +95,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status.value()).body(err);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<StandardError> handleGeneric(Exception e,
-                                                       HttpServletRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        StandardError err = new StandardError(
-                java.time.Instant.now(),
-                status.value(),
-                "Internal Server Error",
-                "Ocorreu um erro inesperado. Tente novamente mais tarde.",
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(status).body(err);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<StandardError> handleGeneric(Exception e,
+//                                                       HttpServletRequest request) {
+//        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+//        StandardError err = new StandardError(
+//                java.time.Instant.now(),
+//                status.value(),
+//                "Internal Server Error",
+//                "Ocorreu um erro inesperado. Tente novamente mais tarde.",
+//                request.getRequestURI()
+//        );
+//        return ResponseEntity.status(status).body(err);
+//    }
 }
