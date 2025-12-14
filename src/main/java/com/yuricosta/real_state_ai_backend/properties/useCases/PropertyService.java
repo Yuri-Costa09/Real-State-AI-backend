@@ -4,6 +4,10 @@ import com.yuricosta.real_state_ai_backend.properties.Property;
 import com.yuricosta.real_state_ai_backend.properties.repositories.PropertyRepository;
 import com.yuricosta.real_state_ai_backend.shared.errors.NotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +23,9 @@ public class PropertyService {
     }
 
 
-    public List<Property> getAllProperties() {
-        return propertyRepository.findAll();
+    public Page<Property> getAllProperties(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        return propertyRepository.findAll(pageable);
     }
 
     public Property getPropertyById(UUID id) {

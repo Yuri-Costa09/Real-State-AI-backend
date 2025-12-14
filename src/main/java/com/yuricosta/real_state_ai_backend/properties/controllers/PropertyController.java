@@ -8,7 +8,9 @@ import com.yuricosta.real_state_ai_backend.properties.useCases.CreatePropertyFor
 import com.yuricosta.real_state_ai_backend.properties.useCases.PropertyService;
 import com.yuricosta.real_state_ai_backend.properties.useCases.UpdatePropertyUseCase;
 import com.yuricosta.real_state_ai_backend.shared.ApiResponse;
+import com.yuricosta.real_state_ai_backend.shared.PagedResponse;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,11 +21,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-// TODO: Implement pagination and filtering for GET /properties endpoint
+// TODO: filtering for GET /properties endpoint
 // TODO: Add logging for important events and errors
-// TODO: Implement caching for frequently accessed data
 // TODO: Add Swagger/OpenAPI documentation for the endpoints
 // TODO: Implement user id validation (if resource belongs to the user)
+// TODO: Implement caching for frequently accessed data
 
 @RestController
 @RequestMapping("/api/v1/properties")
@@ -45,11 +47,24 @@ public class PropertyController {
         }
 
         @GetMapping
-        public ResponseEntity<ApiResponse<List<PropertyResponseDto>>> getAllProperties() {
-                List<Property> properties = propertyService.getAllProperties();
+        public ResponseEntity<ApiResponse<PagedResponse<PropertyResponseDto>>> getAllProperties(
+                        @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "15") int size
+        ) {
 
-                ApiResponse<List<PropertyResponseDto>> apiResponse = ApiResponse.success(
-                                propertyMapper.toResponseDtoList(properties),
+                var pageResult = propertyService.getAllProperties(page, size);
+
+                PagedResponse<PropertyResponseDto> pagedResponse = new PagedResponse<>(
+                                propertyMapper.toResponseDtoList(pageResult.getContent()),
+                                pageResult.getNumber(),
+                                pageResult.getSize(),
+                                pageResult.getTotalElements(),
+                                pageResult.getTotalPages(),
+                                pageResult.hasNext()
+                );
+
+                ApiResponse<PagedResponse<PropertyResponseDto>> apiResponse = ApiResponse.success(
+                                pagedResponse,
                                 "Properties retrieved successfully");
                 return ResponseEntity.ok(apiResponse);
         }
