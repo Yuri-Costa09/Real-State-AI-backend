@@ -10,7 +10,6 @@ import com.yuricosta.real_state_ai_backend.properties.useCases.UpdatePropertyUse
 import com.yuricosta.real_state_ai_backend.shared.ApiResponse;
 import com.yuricosta.real_state_ai_backend.shared.PagedResponse;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
-// TODO: filtering for GET /properties endpoint
 // TODO: Add logging for important events and errors
 // TODO: Add Swagger/OpenAPI documentation for the endpoints
 // TODO: Implement user id validation (if resource belongs to the user)
@@ -49,10 +46,11 @@ public class PropertyController {
         @GetMapping
         public ResponseEntity<ApiResponse<PagedResponse<PropertyResponseDto>>> getAllProperties(
                         @RequestParam(defaultValue = "0") int page,
-                        @RequestParam(defaultValue = "15") int size
+                        @RequestParam(defaultValue = "15") int size,
+                        @ModelAttribute PropertyFilter filter
         ) {
 
-                var pageResult = propertyService.getAllProperties(page, size);
+                var pageResult = propertyService.getAllProperties(page, size, filter);
 
                 PagedResponse<PropertyResponseDto> pagedResponse = new PagedResponse<>(
                                 propertyMapper.toResponseDtoList(pageResult.getContent()),

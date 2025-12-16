@@ -39,7 +39,6 @@ public class SecurityConfig {
             "/api/v1/auth/**"
     };
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
