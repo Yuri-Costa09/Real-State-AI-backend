@@ -1,6 +1,7 @@
 package com.yuricosta.real_state_ai_backend.properties.controllers;
 
 import com.yuricosta.real_state_ai_backend.properties.Property;
+import com.yuricosta.real_state_ai_backend.properties.ai.SemanticSearchService;
 import com.yuricosta.real_state_ai_backend.properties.dtos.*;
 import com.yuricosta.real_state_ai_backend.properties.mappers.PropertyMapper;
 import com.yuricosta.real_state_ai_backend.properties.useCases.CreatePropertyForRentalUseCase;
@@ -32,24 +33,25 @@ public class PropertyController {
         private final PropertyService propertyService;
         private final UpdatePropertyUseCase updatePropertyUseCase;
         private final PropertyMapper propertyMapper;
+        private final SemanticSearchService semanticSearchService;
 
         public PropertyController(CreatePropertyForSaleUseCase createPropertyForSaleUseCase,
                                   CreatePropertyForRentalUseCase createPropertyForRentalUseCase,
-                                  PropertyService propertyService, UpdatePropertyUseCase updatePropertyUseCase, PropertyMapper propertyMapper) {
+                                  PropertyService propertyService, UpdatePropertyUseCase updatePropertyUseCase,
+                                  PropertyMapper propertyMapper, SemanticSearchService semanticSearchService) {
                 this.createPropertyForSaleUseCase = createPropertyForSaleUseCase;
                 this.createPropertyForRentalUseCase = createPropertyForRentalUseCase;
                 this.propertyService = propertyService;
                 this.updatePropertyUseCase = updatePropertyUseCase;
                 this.propertyMapper = propertyMapper;
+                this.semanticSearchService = semanticSearchService;
         }
 
         @GetMapping
         public ResponseEntity<ApiResponse<PagedResponse<PropertyResponseDto>>> getAllProperties(
                         @RequestParam(defaultValue = "0") int page,
                         @RequestParam(defaultValue = "15") int size,
-                        @ModelAttribute PropertyFilter filter
-        ) {
-
+                        @ModelAttribute PropertyFilter filter) {
                 var pageResult = propertyService.getAllProperties(page, size, filter);
 
                 PagedResponse<PropertyResponseDto> pagedResponse = new PagedResponse<>(
@@ -58,8 +60,7 @@ public class PropertyController {
                                 pageResult.getSize(),
                                 pageResult.getTotalElements(),
                                 pageResult.getTotalPages(),
-                                pageResult.hasNext()
-                );
+                                pageResult.hasNext());
 
                 ApiResponse<PagedResponse<PropertyResponseDto>> apiResponse = ApiResponse.success(
                                 pagedResponse,
@@ -74,6 +75,17 @@ public class PropertyController {
                 ApiResponse<PropertyResponseDto> apiResponse = ApiResponse.success(
                                 propertyMapper.toResponseDto(property),
                                 "Property retrieved successfully");
+                return ResponseEntity.ok(apiResponse);
+        }
+
+        @PostMapping("/search")
+        public ResponseEntity<ApiResponse<PropertyFilter>> semanticSearch(
+                        @Valid @RequestBody SemanticSearchRequest request) throws Exception {
+                PropertyFilter filter = semanticSearchService.performSemanticSearch(request.text());
+
+                ApiResponse<PropertyFilter> apiResponse = ApiResponse.success(
+                                filter,
+                                "AI search completed successfully");
                 return ResponseEntity.ok(apiResponse);
         }
 
@@ -114,14 +126,14 @@ public class PropertyController {
         @PreAuthorize("isAuthenticated()")
         @PutMapping("/{id}")
         public ResponseEntity<ApiResponse<PropertyResponseDto>> updateProperty(
-                @PathVariable UUID id,
-                @Valid @RequestBody UpdatePropertyDto request) {
+                        @PathVariable UUID id,
+                        @Valid @RequestBody UpdatePropertyDto request) {
 
                 Property property = updatePropertyUseCase.execute(request, id);
 
                 ApiResponse<PropertyResponseDto> apiResponse = ApiResponse.success(
-                        propertyMapper.toResponseDto(property),
-                        "Property updated successfully");
+                                propertyMapper.toResponseDto(property),
+                                "Property updated successfully");
 
                 return ResponseEntity.ok(apiResponse);
         }
@@ -129,8 +141,8 @@ public class PropertyController {
         @PreAuthorize("isAuthenticated()")
         @DeleteMapping("/{id}")
         public ResponseEntity<ApiResponse<Void>> deleteProperty(@PathVariable UUID id) {
-            propertyService.deleteProperty(id);
-            return ResponseEntity.ok(
-                    ApiResponse.success(null, "Property deleted successfully"));
+                propertyService.deleteProperty(id);
+                return ResponseEntity.ok(
+                                ApiResponse.success(null, "Property deleted successfully"));
         }
 }
