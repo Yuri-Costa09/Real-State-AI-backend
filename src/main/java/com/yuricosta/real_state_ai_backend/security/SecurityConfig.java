@@ -22,8 +22,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-import static org.springframework.security.oauth2.jwt.JwtTypeValidator.jwt;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
