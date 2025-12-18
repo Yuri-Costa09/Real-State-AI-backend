@@ -89,6 +89,7 @@ Este projeto nasceu da vontade de aprofundar conhecimentos em **Spring Boot** e 
 | Flyway | -         | Migrations e versionamento do BD |
 | Google Gemini | 2.5-flash | Modelo de IA para busca semântica |
 | JWT (OAuth2) | -         | Tokens de autenticação |
+| Swagger/OpenAPI | 3.0       | Documentação interativa da API |
 | Lombok | -         | Redução de boilerplate |
 | Maven | -         | Gerenciamento de dependências |
 | Docker Compose | -         | Orquestração de containers |
@@ -201,9 +202,24 @@ mvn spring-boot:run
 
 A aplicação estará disponível em: **<http://localhost:8080>**
 
+### 7️⃣ Explore a Documentação Interativa (Swagger UI)
+
+Acesse a interface Swagger UI para visualizar e testar todos os endpoints:
+
+**🔗 <http://localhost:8080/swagger-ui/index.html>**
+
+O Swagger oferece:
+
+- 📋 Documentação completa de todos os endpoints
+- 🧪 Teste interativo das APIs direto no navegador
+- 📝 Schemas de request/response
+- 🔐 Suporte para autenticação JWT (clique em "Authorize" e insira: `Bearer {seu_token}`)
+
 ---
 
 ## 📡 Endpoints da API
+
+> 💡 **Dica:** Use o Swagger UI em <http://localhost:8080/swagger-ui/index.html> para testar os endpoints de forma interativa!
 
 ### 🔐 Autenticação
 
@@ -459,6 +475,50 @@ O sistema suporta diversos tipos de imóveis:
 
 ---
 
+## 📚 Documentação Interativa com Swagger
+
+O projeto inclui documentação completa via **Swagger UI**, permitindo explorar e testar todos os endpoints diretamente no navegador.
+
+### Como Usar o Swagger
+
+1. **Acesse a URL:**
+
+   ```
+   http://localhost:8080/swagger-ui/index.html
+   ```
+
+2. **Explore os Endpoints:**
+   - Navegue pelos controllers (Auth, Property)
+   - Clique em qualquer endpoint para ver detalhes
+   - Visualize schemas de request/response
+
+3. **Teste com Autenticação JWT:**
+
+   Para testar endpoints protegidos (🔒):
+
+   - Primeiro, faça login via `/api/v1/auth/login` no Swagger
+   - Copie o `accessToken` da resposta
+   - Clique no botão **"Authorize"** 🔓 no topo da página
+   - Insira: `Bearer {seu_token_aqui}`
+   - Clique em "Authorize"
+   - Agora você pode testar endpoints protegidos! ✅
+
+4. **Execute Requisições:**
+   - Clique em "Try it out"
+   - Preencha os parâmetros
+   - Clique em "Execute"
+   - Veja a resposta em tempo real
+
+### Benefícios do Swagger
+
+✅ Documentação sempre atualizada com o código  
+✅ Teste rápido sem precisar de Postman/Insomnia  
+✅ Visualização clara dos schemas e validações  
+✅ Exemplos de requisições e respostas  
+✅ Suporte completo a autenticação JWT  
+
+---
+
 ## 🔍 Exemplos de Filtros Avançados
 
 ### Busca por Faixa de Preço e Tipo
@@ -547,7 +607,7 @@ docker-compose up -d
 
 ## 🚧 Melhorias Futuras (TODOs)
 
-- [ ] Adicionar Swagger/OpenAPI documentation
+- [x] ~~Adicionar Swagger/OpenAPI documentation~~ ✅
 - [ ] Implementar logging estruturado (Logback/SLF4J)
 - [ ] Adicionar testes de integração
 - [ ] Implementar cache com Redis

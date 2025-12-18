@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 // TODO: Add logging for important events and errors
-// TODO: Add Swagger/OpenAPI documentation for the endpoints
+// TODO: Implement AWS S3 integration for property images
+// TODO: Implement caching for frequently accessed data
+// TODO: Add rate limiting to prevent abuse of the API
 // TODO: Implement user id validation (if resource belongs to the user)
 @RestController
 @RequestMapping("/api/v1/properties")
