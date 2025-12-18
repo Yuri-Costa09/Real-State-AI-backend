@@ -23,8 +23,6 @@ import java.util.UUID;
 // TODO: Add logging for important events and errors
 // TODO: Add Swagger/OpenAPI documentation for the endpoints
 // TODO: Implement user id validation (if resource belongs to the user)
-// TODO: Implement caching for frequently accessed data
-
 @RestController
 @RequestMapping("/api/v1/properties")
 public class PropertyController {

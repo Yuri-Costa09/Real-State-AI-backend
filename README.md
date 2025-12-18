@@ -1,278 +1,586 @@
-# Spring Boot Authentication Template
+# 🏘️ Real State AI Backend
 
-A production-ready Spring Boot 4.0 template with JWT authentication, role-based authorization, and best practices for building secure REST APIs.
+> Uma API moderna de gestão de imóveis com busca semântica alimentada por IA
 
-## 🚀 Features
+Olá! 👋 Seja muito bem-vindo(a) ao **Real State AI Backend**, um projeto criado com muito carinho para explorar as melhores práticas do ecossistema Spring Boot, enquanto constrói uma solução real e funcional para o mercado imobiliário.
 
-### Security & Authentication
+---
 
-- **JWT Authentication** with RSA public/private key pairs
-- **Role-Based Access Control (RBAC)** with Spring Security
-- **Password Encryption** using BCrypt
-- **Stateless Sessions** for scalability
+## 📖 Sobre o Projeto
 
-### Architecture & Design
+Este projeto nasceu da vontade de aprofundar conhecimentos em **Spring Boot** e suas capacidades avançadas, criando uma API robusta e moderna para gestão de imóveis (vendas e aluguéis). O diferencial? Uma integração inteligente com **IA (Gemini)** que permite buscas semânticas naturais!
 
-- **Centralized Error Handling** with `@RestControllerAdvice`
-- **Standardized API Responses** using `ApiResponse<T>` wrapper
-- **Base Entity Pattern** with automatic auditing (createdAt, updatedAt)
-- **Repository Pattern** with Spring Data JPA
+### 🎯 Objetivos de Aprendizado
 
-### Database & Persistence
+- **JPA Specifications**: Implementação de filtros complexos e dinâmicos com type-safe queries
+- **Arquitetura em Camadas**: Separação clara de responsabilidades (Controllers, UseCases, Services, Repositories)
+- **Respostas Padronizadas**: API responses consistentes com `ApiResponse<T>` e tratamento de erros
+- **Error Handling Centralizado**: `@ControllerAdvice` com exception handlers globais
+- **Paginação**: Implementação de paginação eficiente com metadados completos
+- **Integração com IA**: Busca semântica usando Google Gemini para interpretação de linguagem natural
+- **Autenticação JWT**: Security com OAuth2 Resource Server e tokens JWT
+- **RBAC (Role-Based Access Control)**: Sistema de permissões baseado em roles
+- **Migrations**: Controle de versão do banco de dados com Flyway
+- **Docker Compose**: Containerização do ambiente de desenvolvimento
 
-- **PostgreSQL** as primary database
-- **Flyway Migrations** for version-controlled schema changes
-- **H2 Console** for development/testing
-- **UUID-based Primary Keys** for entities
-- **Automatic Auditing** with JPA EntityListeners
+---
 
-### Developer Experience
+## ✨ Principais Funcionalidades
 
-- **Lombok** integration for cleaner code
-- **Docker Compose** for easy database setup
-- **Spring Boot DevTools** ready
-- **Actuator** endpoints for monitoring
+### 🔐 Autenticação e Autorização
 
-## 📋 Prerequisites
+- Sistema completo de registro e login com JWT
+- Tokens RSA assimétricos (chaves pública/privada)
+- RBAC com roles `USER` e `ADMIN`
+- Proteção de endpoints com `@PreAuthorize`
 
-- Java 21+
-- Maven 3.8+
-- Docker & Docker Compose (for database)
-- PostgreSQL (or use provided Docker setup)
+### 🏠 Gestão de Imóveis
 
-## ⚡ Quick Start
+- **CRUD completo** de propriedades (Create, Read, Update, Delete)
+- Suporte para imóveis de **venda** e **aluguel**
+- Tipos de imóveis: Casa, Apartamento, Terreno, Comercial, etc.
+- Status: Disponível, Alugado, Vendido, Manutenção
 
-### 1. Clone and Navigate
+### 🔍 Busca Avançada
+
+- **Filtros dinâmicos** com JPA Specifications:
+  - Por tipo de imóvel
+  - Por status
+  - Por tipo de anúncio (venda/aluguel)
+  - Por faixa de preço
+  - Por número de quartos/banheiros
+  - Por área
+  - Por localização (cidade, estado, país)
+  
+- **Busca Semântica com IA**:
+
+  ```
+  "Quero um apartamento com 3 quartos em São Paulo por até 500 mil"
+  → A IA converte para filtros estruturados automaticamente!
+  ```
+
+### 📄 Paginação
+
+- Sistema robusto de paginação com metadados:
+  - Número da página atual
+  - Tamanho da página
+  - Total de elementos
+  - Total de páginas
+  - Indicador de próxima página
+
+### 🛡️ Tratamento de Erros
+
+- Exception handling centralizado
+- Mensagens de erro padronizadas
+- HTTP status codes apropriados
+- Validações com Bean Validation
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+| Tecnologia | Versão    | Finalidade |
+|-----------|-----------|-----------|
+| Java | 21        | Linguagem principal |
+| Spring Boot | 3.4.1     | Framework base |
+| Spring Data JPA | -         | Camada de persistência |
+| Spring Security | -         | Autenticação e autorização |
+| PostgreSQL | latest    | Banco de dados relacional |
+| Flyway | -         | Migrations e versionamento do BD |
+| Google Gemini | 2.5-flash | Modelo de IA para busca semântica |
+| JWT (OAuth2) | -         | Tokens de autenticação |
+| Lombok | -         | Redução de boilerplate |
+| Maven | -         | Gerenciamento de dependências |
+| Docker Compose | -         | Orquestração de containers |
+
+---
+
+## 🏗️ Arquitetura
+
+O projeto segue uma arquitetura em camadas bem definida:
+
+```
+┌─────────────────────────────────────────┐
+│         Controllers (API Layer)          │  ← Recebe requisições HTTP
+├─────────────────────────────────────────┤
+│      Use Cases (Business Logic)          │  ← Orquestra regras de negócio
+├─────────────────────────────────────────┤
+│       Services (Domain Services)         │  ← Lógica de domínio
+├─────────────────────────────────────────┤
+│    Repositories (Data Access Layer)      │  ← Acesso ao banco de dados
+├─────────────────────────────────────────┤
+│         Database (PostgreSQL)            │  ← Persistência
+└─────────────────────────────────────────┘
+```
+
+### Padrões Implementados
+
+- **Use Case Pattern**: Cada operação de negócio é um UseCase independente
+- **Repository Pattern**: Abstração da camada de dados
+- **DTO Pattern**: Objetos de transferência separados das entidades
+- **Mapper Pattern**: Conversão entre entidades e DTOs
+- **Specification Pattern**: Queries dinâmicas type-safe
+
+---
+
+## 📋 Pré-requisitos
+
+Antes de começar, certifique-se de ter instalado:
+
+- ☕ **Java 21** ou superior ([Download](https://adoptium.net/))
+- 🐳 **Docker** e **Docker Compose** ([Download](https://www.docker.com/))
+- 🔧 **Maven** 3.8+ (ou use o wrapper incluído `./mvnw`)
+- 🔑 **API Key do Google Gemini** ([Obtenha aqui](https://makersuite.google.com/app/apikey))
+
+---
+
+## 🎮 Como Rodar o Projeto
+
+### 1️⃣ Clone o Repositório
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/seu-usuario/real_state_ai_backend.git
 cd real_state_ai_backend
 ```
 
-### 2. Generate RSA Keys for JWT
+### 2️⃣ Configure as Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto ou exporte a variável:
 
 ```bash
-# Generate private key
-openssl genrsa -out src/main/resources/app.key 2048
-
-# Generate public key from private key
-openssl rsa -in src/main/resources/app.key -pubout -out src/main/resources/app.pub
+export GEMINI_API_KEY=sua_chave_api_aqui
 ```
 
-### 3. Start Database
+Ou no Windows (PowerShell):
+
+```powershell
+$env:GEMINI_API_KEY="sua_chave_api_aqui"
+```
+
+### 3️⃣ Suba o Banco de Dados
+
+O projeto usa Docker Compose para gerenciar o PostgreSQL. Basta rodar:
 
 ```bash
 docker-compose up -d
 ```
 
-### 4. Run Application
+Isso iniciará um container PostgreSQL na porta **5434** com:
+
+- Database: `real_state_db`
+- User: `postgres`
+- Password: `postgres`
+
+### 4️⃣ Gere as Chaves RSA (Se necessário)
+
+O projeto já inclui chaves de exemplo em `src/main/resources/`
+
+```bash
+# Gerar chave privada
+openssl genrsa -out src/main/resources/app.key 2048
+
+# Gerar chave pública
+openssl rsa -in src/main/resources/app.key -pubout -out src/main/resources/app.pub
+```
+
+### 5️⃣ Execute a Aplicação
+
+Com Maven wrapper (recomendado):
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-The application will start on `http://localhost:8080`
+Ou se você tem Maven instalado:
 
-## 📚 Documentation
-
-- **[Architecture Guide](docs/ARCHITECTURE.md)** - Project structure and conventions
-- **[API Documentation](docs/API.md)** - Available endpoints and usage
-- **[Setup Guide](docs/SETUP.md)** - Detailed setup and configuration
-- **[Development Guide](docs/DEVELOPMENT.md)** - How to extend the template
-
-## 🔑 Default Endpoints
-
-### Public Endpoints (No Authentication Required)
-
-- `POST /login` - User authentication
-- `POST /register` - User registration
-
-All other endpoints are protected by default (change in `SecurityConfig.PUBLIC_ENDPOINTS`).
-
-## 🏗️ Project Structure
-
-```
-src/main/java/com/yuricosta/real_state_ai_backend/
-├── security/              # Authentication & authorization
-│   ├── controllers/       # Auth endpoints (login, register)
-│   ├── dtos/             # Request/response DTOs
-│   ├── AuthService.java  # JWT generation logic
-│   └── SecurityConfig.java # Security configuration
-├── user/                  # User domain
-│   ├── User.java         # User entity
-│   ├── UserRepository.java
-│   └── UserService.java
-├── roles/                 # Role management
-│   ├── Role.java
-│   └── RoleRepository.java
-└── shared/               # Shared utilities
-    ├── ApiResponse.java  # Standard response wrapper
-    ├── StandardError.java # Error response format
-    ├── BaseEntity.java   # Base class for entities
-    ├── GlobalExceptionHandler.java # Centralized error handling
-    └── errors/           # Custom exceptions
+```bash
+mvn spring-boot:run
 ```
 
-## 🎯 Core Conventions
+### 6️⃣ Acesse a API
 
-### 1. API Response Format
+A aplicação estará disponível em: **<http://localhost:8080>**
 
-All successful responses use `ApiResponse<T>`:
+---
+
+## 📡 Endpoints da API
+
+### 🔐 Autenticação
+
+#### Registrar Usuário
+
+```http
+POST /api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "johndoe",
+  "email": "john@example.com",
+  "password": "senha123"
+}
+```
+
+#### Login
+
+```http
+POST /api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "johndoe",
+  "password": "senha123"
+}
+```
+
+**Resposta:**
 
 ```json
 {
   "success": true,
-  "message": "Operation successful",
-  "data": { ... },
-  "timestamp": "2025-12-11T10:30:00"
+  "data": {
+    "accessToken": "eyJhbGciOiJSUzI1NiIs...",
+    "expiresIn": 3600
+  },
+  "message": "Login successful",
+  "timestamp": "2024-12-17T10:30:00"
 }
 ```
 
-### 2. Error Response Format
+### 🏠 Propriedades
 
-All errors use `StandardError`:
+#### Listar Propriedades (com filtros e paginação)
+
+```http
+GET /api/v1/properties?page=0&size=15&propertyType=APARTMENT&minPrice=100000&maxPrice=500000
+```
+
+#### Buscar Propriedade por ID
+
+```http
+GET /api/v1/properties/{id}
+```
+
+#### Busca Semântica com IA ✨
+
+```http
+POST /api/v1/properties/search
+Content-Type: application/json
+
+{
+  "text": "Preciso de uma casa com 4 quartos em Campinas para comprar até 800 mil reais"
+}
+```
+
+**Resposta:** A IA converte sua busca natural em filtros estruturados!
 
 ```json
 {
-  "timestamp": "2025-12-11T10:30:00.123Z",
-  "status": 404,
-  "error": "Not Found",
-  "message": "User not found",
-  "path": "/api/users/123"
+  "success": true,
+  "data": {
+    "propertyType": "HOUSE",
+    "listingType": "SALE",
+    "minBedrooms": 4,
+    "maxPrice": 800000,
+    "city": "Campinas"
+  },
+  "message": "AI search completed successfully"
 }
 ```
 
-### 3. Entity Base Class
+#### Criar Propriedade para Venda 🔒
 
-All entities extend `BaseEntity` for automatic:
+```http
+POST /api/v1/properties/sale
+Authorization: Bearer {token}
+Content-Type: application/json
 
-- UUID-based primary keys
-- `createdAt` timestamp
-- `updatedAt` timestamp
-
-## 🛠️ Technology Stack
-
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| Spring Boot | 4.0.0 | Framework |
-| Java | 21 | Language |
-| PostgreSQL | Latest | Database |
-| Flyway | Latest | Migrations |
-| Spring Security | 6.x | Security |
-| OAuth2 Resource Server | 6.x | JWT handling |
-| Lombok | Latest | Code generation |
-| BCrypt | - | Password hashing |
-
-## 🔒 Security Features
-
-- **JWT Tokens**: 1-hour expiration (configurable)
-- **Password Hashing**: BCrypt with default strength
-- **Stateless Authentication**: No server-side sessions
-- **RSA Encryption**: Public/private key pair for JWT signing
-- **CSRF Protection**: Disabled for stateless API
-- **CORS**: Configure in `SecurityConfig` as needed
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-./mvnw test
-
-# Run with coverage
-./mvnw verify
+{
+  "title": "Casa Moderna no Centro",
+  "description": "Linda casa com 3 quartos...",
+  "price": 450000,
+  "propertyType": "HOUSE",
+  "bedrooms": 3,
+  "bathrooms": 2,
+  "area": 150.5,
+  "address": {
+    "street": "Rua das Flores",
+    "number": "123",
+    "city": "São Paulo",
+    "state": "SP",
+    "country": "Brasil",
+    "zipCode": "01234-567"
+  },
+  "images": [
+    { "url": "https://...", "description": "Fachada" }
+  ]
+}
 ```
 
-## 📦 Building for Production
+#### Criar Propriedade para Aluguel 🔒
 
-```bash
-# Create executable JAR
-./mvnw clean package
+```http
+POST /api/v1/properties/rental
+Authorization: Bearer {token}
+Content-Type: application/json
 
-# Run the JAR
-java -jar target/real_state_ai_backend-0.0.1-SNAPSHOT.jar
+{
+  "title": "Apartamento Mobiliado",
+  "description": "Apto 2 quartos mobiliado...",
+  "monthlyRent": 2500,
+  "propertyType": "APARTMENT",
+  "bedrooms": 2,
+  "bathrooms": 1,
+  "area": 65.0,
+  "address": { ... }
+}
 ```
 
-## 🔧 Configuration
+#### Atualizar Propriedade 🔒
 
-Key configuration in `application.properties`:
+```http
+PUT /api/v1/properties/{id}
+Authorization: Bearer {token}
+Content-Type: application/json
 
-```properties
-# Database
-spring.datasource.url=jdbc:postgresql://localhost:5434/real_state_db
-spring.datasource.username=postgres
-spring.datasource.password=postgres
-
-# JWT Keys
-jwt.pub.key=classpath:app.pub
-jwt.private.key=classpath:app.key
-
-# Flyway
-spring.flyway.enabled=true
-
-# JPA
-spring.jpa.hibernate.ddl-auto=validate
+{
+  "title": "Novo título",
+  "price": 480000,
+  "status": "AVAILABLE"
+}
 ```
 
-## 🚀 Using as Template
+#### Deletar Propriedade 🔒
 
-### 1. Update Package Names
-
-Replace `com.yuricosta.real_state_ai_backend` with your package:
-
-```bash
-# Linux/Mac
-find . -type f -name "*.java" -exec sed -i '' 's/com.yuricosta.real_state_ai_backend/com.yourcompany.yourproject/g' {} +
-
-# Or manually via IDE refactoring
+```http
+DELETE /api/v1/properties/{id}
+Authorization: Bearer {token}
 ```
 
-### 2. Update Project Metadata
+### 📝 Formato Padrão das Respostas
 
-Edit `pom.xml`:
+Todas as respostas seguem o formato `ApiResponse<T>`:
 
-- `<groupId>` - Your organization
-- `<artifactId>` - Your project name
-- `<name>` and `<description>`
-
-### 3. Update Application Name
-
-In `application.properties`:
-
-```properties
-spring.application.name=your-application-name
+```json
+{
+  "success": true,
+  "data": { ... },
+  "message": "Operation completed successfully",
+  "timestamp": "2024-12-17T10:30:00"
+}
 ```
 
-### 4. Configure Database
+Para paginação, o formato é `PagedResponse<T>`:
 
-Update database settings in:
-
-- `application.properties`
-- `compose.yaml`
-
-## 📖 Learning Resources
-
-- [Spring Boot Documentation](https://docs.spring.io/spring-boot/docs/current/reference/html/)
-- [Spring Security OAuth2](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html)
-- [Flyway Documentation](https://flywaydb.org/documentation/)
-
-## 🤝 Contributing
-
-This is a template repository. When using for your projects:
-
-1. Fork or clone the repository
-2. Customize for your needs
-3. Remove this section and update README
-
-## 📝 License
-
-[Add your license here]
-
-## 👤 Author
-
-Yuri Costa
+```json
+{
+  "success": true,
+  "data": {
+    "content": [ ... ],
+    "currentPage": 0,
+    "pageSize": 15,
+    "totalElements": 100,
+    "totalPages": 7,
+    "hasNext": true
+  },
+  "message": "Properties retrieved successfully"
+}
+```
 
 ---
 
-**Ready to build your next Spring Boot application!** 🎉
+## 🗂️ Estrutura do Projeto
 
-For detailed guides, see the `/docs` folder.
+```
+src/main/java/com/yuricosta/real_state_ai_backend/
+│
+├── properties/                    # Módulo de Propriedades
+│   ├── ai/                       # Integração com IA
+│   │   ├── GeminiConfig.java
+│   │   ├── GeminiPrompt.java
+│   │   └── SemanticSearchService.java
+│   ├── controllers/              # Endpoints REST
+│   ├── dtos/                     # Data Transfer Objects
+│   ├── enums/                    # Enums de domínio
+│   ├── mappers/                  # Conversão Entity ↔ DTO
+│   ├── repositories/             # Acesso a dados
+│   ├── specifications/           # JPA Specifications
+│   ├── useCases/                 # Regras de negócio
+│   ├── Property.java             # Entidade principal
+│   └── Address.java              # Entidade de endereço
+│
+├── security/                      # Módulo de Segurança
+│   ├── controllers/
+│   ├── dtos/
+│   ├── AuthService.java
+│   ├── SecurityConfig.java
+│   └── UserDetailsService.java
+│
+├── users/                         # Módulo de Usuários
+│   ├── User.java
+│   ├── UserRepository.java
+│   └── UserService.java
+│
+├── roles/                         # Módulo de Roles
+│   ├── Role.java
+│   └── RoleRepository.java
+│
+└── shared/                        # Utilitários compartilhados
+    ├── errors/
+    │   ├── GlobalExceptionHandler.java
+    │   └── NotFoundException.java
+    ├── ApiResponse.java
+    ├── PagedResponse.java
+    └── BaseEntity.java
+```
+
+---
+
+## 🎨 Tipos de Propriedades
+
+O sistema suporta diversos tipos de imóveis:
+
+- `HOUSE` - Casa
+- `APARTMENT` - Apartamento
+- `CONDO` - Condomínio
+- `LAND` - Terreno
+- `COMMERCIAL` - Comercial
+- `FARM` - Fazenda/Sítio
+
+## 📊 Status das Propriedades
+
+- `DRAFTED` - Em rascunho
+- `PUBLISHED` - Publicado
+- `PAUSED` - Pausado
+
+## 📝 Tipos de Anúncio
+
+- `SALE` - Venda
+- `RENTAL` - Aluguel
+
+---
+
+## 🔍 Exemplos de Filtros Avançados
+
+### Busca por Faixa de Preço e Tipo
+
+```
+GET /api/v1/properties?propertyType=APARTMENT&minPrice=200000&maxPrice=400000
+```
+
+### Busca por Localização e Características
+
+```
+GET /api/v1/properties?city=São Paulo&minBedrooms=2&minBathrooms=1&minArea=50
+```
+
+### Busca por Status e Tipo de Anúncio
+
+```
+GET /api/v1/properties?status=AVAILABLE&listingType=RENTAL
+```
+
+### Busca Semântica (Linguagem Natural)
+
+```
+POST /api/v1/properties/search
+{
+  "text": "Apartamento para alugar com 2 quartos em Campinas até 3000 reais"
+}
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Problema: "Port 5434 already in use"
+
+**Solução:** Outra aplicação está usando a porta. Altere a porta em `compose.yaml` ou pare o serviço conflitante.
+
+### Problema: "GEMINI_API_KEY not found"
+
+**Solução:** Certifique-se de exportar a variável de ambiente antes de iniciar a aplicação.
+
+### Problema: Erro de Flyway migration
+
+**Solução:** Se necessário, limpe o banco e execute novamente:
+
+```bash
+docker-compose down -v
+docker-compose up -d
+./mvnw spring-boot:run
+```
+
+### Problema: JWT Token inválido
+
+**Solução:** Verifique se as chaves `app.key` e `app.pub` existem em `src/main/resources/`.
+
+---
+
+## 🎓 Aprendizados e Conceitos Aplicados
+
+### JPA Specifications
+
+- Queries dinâmicas e compostas
+- Type-safe criteria API
+- Filtros reutilizáveis e combináveis
+
+### Spring Security
+
+- OAuth2 Resource Server
+- JWT com chaves RSA
+- Method-level security com `@PreAuthorize`
+
+### API Design
+
+- RESTful best practices
+- Versionamento de API (`/api/v1`)
+- Respostas consistentes
+- HTTP status codes corretos
+
+### Integração com IA
+
+- Prompt engineering
+- Parsing de respostas de LLMs
+- Fallback e error handling
+
+---
+
+## 🚧 Melhorias Futuras (TODOs)
+
+- [ ] Adicionar Swagger/OpenAPI documentation
+- [ ] Implementar logging estruturado (Logback/SLF4J)
+- [ ] Adicionar testes de integração
+- [ ] Implementar cache com Redis
+- [ ] Adicionar upload de imagens real (S3/Cloudinary)
+- [ ] Validação de propriedade por usuário (ownership)
+- [ ] Rate limiting
+- [ ] Métricas e monitoring (Prometheus/Grafana)
+- [ ] CI/CD pipeline
+
+---
+
+## 📄 Licença
+
+Este projeto é de código aberto e está disponível para fins educacionais.
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por **Yuri Costa**
+
+---
+
+## 🎉 Considerações Finais
+
+Obrigado por conferir este projeto! Espero que ele possa ser útil tanto para aprendizado quanto como referência para suas próprias implementações.
+
+Se você encontrou algum bug, tem sugestões de melhorias ou quer discutir alguma decisão arquitetural, fique à vontade para abrir uma issue ou enviar um PR. Toda contribuição é muito bem-vinda! 🚀
+
+**Happy coding!** 🎈✨
+
+---
+
+<div align="center">
+  <sub>Feito com dedicação para a comunidade dev 💙</sub>
+</div>
